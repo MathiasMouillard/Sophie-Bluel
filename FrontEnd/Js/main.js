@@ -1,55 +1,18 @@
-// Gallery - category buttons
-
-var buttonsContainer = document.createElement("div");
-buttonsContainer.className = "buttons-container";
-var categories = ["Tous", "Objets", "Appartements", "Hôtels & restaurants"];
-
-var activeButton = document.querySelector(".filter__btn");
-if (activeButton) {
-  activeButton.classList.add("filter__btn--active");
-}
-
-for (var i = 0; i < categories.length; i++) {
-  var button = document.createElement("button");
-  button.textContent = categories[i];
-  button.className = "filter__btn";
-  buttonsContainer.appendChild(button);
-
-  button.addEventListener("click", function() {
-    if (activeButton) {
-      activeButton.classList.remove("filter__btn--active");
-    }
-
-    this.classList.add("filter__btn--active");
-
-    activeButton = this;
-
-  });
-}
-
-var defaultButton = buttonsContainer.querySelector(".filter__btn");
-if (defaultButton) {
-  defaultButton.classList.add("filter__btn--active");
-  activeButton = defaultButton;
-}
-
-var portfolioSection = document.querySelector("#portfolio");
-if (portfolioSection) {
-  var h2Element = portfolioSection.querySelector("h2");
-  if (h2Element) {
-    h2Element.insertAdjacentElement("afterend", buttonsContainer);
-  }
-}
-
-
-
-// Gallery - show 
- async function initWorks() {
+// Filtre par categorie
+async function filterWorksByCategory(categoryId) {
    const data = await getWorksFromApi();
+
+   if (categoryId === 0) {
+     displayAllWorks(data);
+     return;
+   }
+
+   const filteredWorks = data.filter(work => work.categoryId === categoryId);
+
    const galleryElement = document.querySelector('.gallery');
    let galleryHTML = '';
- 
-   data.forEach(item => {
+
+   filteredWorks.forEach(item => {
      galleryHTML += `
        <figure>
          <img src="${item.imageUrl}">
@@ -57,11 +20,69 @@ if (portfolioSection) {
        </figure>
      `;
    });
- 
+
    galleryElement.innerHTML = galleryHTML;
  }
 
- initWorks();
- 
- 
- 
+// Affiche la galerie
+function displayAllWorks(works) {
+   const galleryElement = document.querySelector('.gallery');
+   let galleryHTML = '';
+
+   works.forEach(item => {
+     galleryHTML += `
+       <figure>
+         <img src="${item.imageUrl}">
+         <figcaption>${item.title}</figcaption>
+       </figure>
+     `;
+   });
+
+   galleryElement.innerHTML = galleryHTML;
+ }
+
+// Conteneur des categories
+var buttonsContainer = document.createElement("div");
+buttonsContainer.className = "buttons-container";
+var categories = ["Tous", "Objets", "Appartements", "Hôtels & restaurants"];
+
+var activeButton = null;
+
+// Crée les boutons par rapport au tableau des categories
+categories.forEach((category, index) => {
+   var button = document.createElement("button");
+   button.textContent = category;
+   button.className = "filter__btn";
+   button.setAttribute('data-category-id', index);
+
+   buttonsContainer.appendChild(button);
+
+   button.addEventListener("click", function() {
+     const categoryId = parseInt(this.getAttribute('data-category-id'));
+
+     if (activeButton) {
+       activeButton.classList.remove("filter__btn--active");
+     }
+
+     this.classList.add("filter__btn--active");
+     activeButton = this;
+
+     filterWorksByCategory(categoryId);
+   });
+ });
+
+// Active premier bouton par défaut
+var firstButton = buttonsContainer.querySelector("button[data-category-id='0']");
+firstButton.classList.add("filter__btn--active");
+activeButton = firstButton;
+
+// Place la balise des boutons dans le html
+var portfolioSection = document.querySelector("#portfolio");
+if (portfolioSection) {
+   var h2Element = portfolioSection.querySelector("h2");
+   if (h2Element) {
+     h2Element.insertAdjacentElement("afterend", buttonsContainer);
+   }
+ }
+
+filterWorksByCategory(0);
