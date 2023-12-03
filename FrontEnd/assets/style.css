@@ -59,10 +59,10 @@ body {
 header {
 	display: flex;
 	justify-content: space-between;
-	margin: 50px 0
+	margin: 50px 0;
 }
 section {
-	margin: 50px 0
+	margin: 50px 0 100px 0;
 }
 
 h1{
@@ -244,3 +244,31 @@ input[type="submit"]{
 	text-align: center;
 	border-radius: 60px ;
 }
+
+/* Category filter */
+
+.buttons-container {
+	display: flex;
+	justify-content: center; 
+	align-items: center;
+	
+  }
+
+  .filter__btn {
+	font-family: 'Syne';
+	padding: 10px 20px;
+	margin: 20px 15px 35px 15px;
+	border: 1px solid #1D6154;
+	border-radius: 25px;
+	color: #1D6154;
+	background-color: white;
+	font-size: 16px;
+	font-weight: 700;
+	outline: none;
+	cursor: pointer;	
+  }
+  
+  .filter__btn--active {
+	background-color: #1D6154;
+	color: white;
+  }

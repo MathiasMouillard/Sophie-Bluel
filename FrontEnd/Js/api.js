@@ -1,5 +1,6 @@
 const apiUrl = 'http://localhost:5678/api';
 
+  
   async function getUserLoginFromApi() {
     try {
       const response = await fetch(apiUrl + "/user/login");
@@ -16,7 +17,7 @@ const apiUrl = 'http://localhost:5678/api';
 
   async function getCategoriesFromApi() {
     try {
-    const response = await fetch(apiUrl + "/Categories");
+    const response = await fetch(apiUrl + "/categories");
     if (!response.ok) {
       throw new Error('Erreur de récupération des données');
     }

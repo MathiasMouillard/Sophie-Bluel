@@ -10,3 +10,4 @@ document.getElementById('loginForm').addEventListener('submit', async function (
       return;
     }
 })
+
