@@ -1,7 +1,6 @@
 // Gallery - show gallery
 async function initWorks() {
    const data = await getWorksFromApi();
- 
    const galleryElement = document.querySelector('.gallery');
    let galleryHTML = '';
  
