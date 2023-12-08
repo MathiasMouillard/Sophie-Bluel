@@ -39,7 +39,7 @@ categories.forEach((category, index) => {
 
 // Filtre par categorie
 async function filterWorksByCategory(categoryId) {
-   const data = await getWorksFromApi();
+   const data = await getWorks();
 
    if (categoryId === 0) {
      displayAllWorks(data);

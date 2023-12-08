@@ -1,9 +1,9 @@
 const apiUrl = 'http://localhost:5678/api';
 
   
-  async function getUserLoginFromApi() {
+  async function getUserLogin() {
     try {
-      const response = await fetch(apiUrl + "/user/login");
+      const response = await fetch(apiUrl + "/users/login");
       if (!response.ok) {
         throw new Error('Erreur de récupération des données');
       }
@@ -15,7 +15,7 @@ const apiUrl = 'http://localhost:5678/api';
     }
   };
 
-  async function getCategoriesFromApi() {
+  async function getCategories() {
     try {
     const response = await fetch(apiUrl + "/categories");
     if (!response.ok) {
@@ -29,7 +29,7 @@ const apiUrl = 'http://localhost:5678/api';
   }
 };
    
-  async function getWorksFromApi() {
+  async function getWorks() {
     try {
       const response = await fetch(apiUrl + "/works");
       if (!response.ok) {
@@ -42,3 +42,6 @@ const apiUrl = 'http://localhost:5678/api';
       return [];
     }
   };
+
+
+  
