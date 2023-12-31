@@ -51,15 +51,20 @@ html {
 }
 /** end reset css**/
 body {
-	max-width: 1140px;
-	margin:auto;
 	font-family: 'Work Sans' ;
 	font-size: 14px;
 }
-header {
+.header {
 	display: flex;
 	justify-content: space-between;
 	margin: 50px 0;
+}
+.header a:hover {
+	font-weight: bold;
+  }
+header, main, footer {
+	max-width: 1140px;
+	margin:auto;
 }
 section {
 	margin: 50px 0 100px 0;
@@ -290,3 +295,37 @@ input[type="submit"]{
     flex-direction: column;
     align-items: center;
 }
+
+/* Admin mode */
+.background-bar {
+	background-color: black;
+  color: white;
+  text-align: center;
+  padding: 10px 0;
+  position: inherit;
+  top: 0;
+  z-index: 9999;
+  transition: top 0.3s ease-in-out;
+}
+  #editModeBanner {
+	max-width: auto;
+	margin: 0 auto;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+	color: white;
+}
+.edit-mode-banner{
+	display: flex;
+	align-items: baseline;
+}
+#editModeBanner i{
+	margin-right: 5px;
+}
+#editModeBanner p{
+	font-size: 1.1428571428571428em;
+}
+.hidden {
+	display: none;
+  }

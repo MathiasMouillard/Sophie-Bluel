@@ -55,9 +55,7 @@ async function filterWorksByCategory(categoryId) {
      displayAllWorks(data);
      return;
    }
-
    const filteredWorks = data.filter(work => work.categoryId === categoryId);
-
    const galleryElement = document.querySelector('.gallery');
    let galleryHTML = '';
 
@@ -97,8 +95,42 @@ function displayAllWorks(works) {
   galleryElement.innerHTML = galleryHTML;
 }
 
-
 // Active la galerie
 filterWorksByCategory(0);
 
 
+
+//Admin mode
+document.addEventListener("DOMContentLoaded", () => {
+  const bearerAuth = window.localStorage.getItem("bearerAuth");
+  const editModeBanner = document.getElementById("editModeBanner");
+  const categoryButtons = document.querySelectorAll(".filter__btn");
+  const backgroundBar = document.querySelector(".background-bar"); 
+
+  if (bearerAuth) {
+    editModeBanner.style.top = "0";
+    categoryButtons.forEach(button => {
+      button.style.display = "none";
+    });
+  } else {
+    backgroundBar.classList.add("hidden");
+  }
+});
+
+// Déconnexion admin
+document.addEventListener("DOMContentLoaded", () => {
+  const bearerAuth = window.localStorage.getItem("bearerAuth");
+  const loginLogout = document.getElementById("loginLogoutLink");
+
+  if (bearerAuth) {
+    loginLogout.textContent = "Logout";
+  }
+
+  loginLogout.addEventListener("click", () => {
+    if (bearerAuth) {
+      window.localStorage.removeItem("bearerAuth");
+      window.location.replace("index.html");
+    } else {
+    }
+  });
+});
