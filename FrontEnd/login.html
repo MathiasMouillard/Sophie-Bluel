@@ -9,8 +9,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
     <meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
-	<script src="./Js/api.js" defer></script>
-	<script src="./Js/login.js" defer></script>
+	<script src="./Js/api.js" type='module'></script>
+	<script src="./Js/login.js" type='module' defer></script>
 </head>
 <body>
 <header>
@@ -30,13 +30,12 @@
 		<h2>Log in</h2>
 		<form id="loginForm" action="#" method="post">			
 			<label for="email">E-mail</label>
-			<input type="email" name="email" id="email">
+			<input type="email" name="email" id="email" autocomplete="email">
             <label for="password">Mot de passe</label>
-            <input type="password" name="password" id="password">
-			<input type="submit" value="Se connecter">
+            <input type="password" name="password" id="password" autocomplete="current-password">
+			<input type="submit" id="btnSubmitLogin" value="Se connecter">
 		</form>
         <a href="#">Mot de passe oublié</a>
-		<div id="errorMessage" style="color: red;"></div>
 	</section>
 </main>
 <footer>

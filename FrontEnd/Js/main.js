@@ -1,9 +1,10 @@
+import { getWorks } from './api.js';
+
 // Conteneur des categories
 const buttonsContainer = document.createElement("div");
 buttonsContainer.className = "buttons-container";
 const categories = ["Tous", "Objets", "Appartements", "Hôtels & restaurants"];
 
-let activeButton = null;
 
 // Place la balise des boutons dans le html
 const portfolioSection = document.querySelector("#portfolio");
@@ -13,8 +14,16 @@ if (portfolioSection) {
      h2Element.insertAdjacentElement("afterend", buttonsContainer);
    }
  }
+            // mentora
+ //   const h2Element = document.querySelector("#portfolio h2");
+ //     if (h2Element) {
+ //       h2Element.insertAdjacentElement("afterend", buttonsContainer);
+ //     }
+
 
 // Crée les boutons par rapport au tableau des categories
+let activeButton = null;
+
 categories.forEach((category, index) => {
    let button = document.createElement("button");
    button.textContent = category;
@@ -37,9 +46,10 @@ categories.forEach((category, index) => {
    });
  });
 
+
 // Filtre par categorie
 async function filterWorksByCategory(categoryId) {
-   const data = await getWorks();
+  const data = await getWorks();
 
    if (categoryId === 0) {
      displayAllWorks(data);
@@ -63,27 +73,30 @@ async function filterWorksByCategory(categoryId) {
    galleryElement.innerHTML = galleryHTML;
  }
 
- // Active premier bouton par défaut
+
+// Active premier bouton par défaut
 const firstButton = buttonsContainer.querySelector("button[data-category-id='0']");
+
 firstButton.classList.add("filter__btn--active");
 activeButton = firstButton;
 
+
 // Affiche la galerie
+const galleryElement = document.querySelector('.gallery');
+let galleryHTML = '';
+
 function displayAllWorks(works) {
-   const galleryElement = document.querySelector('.gallery');
-   let galleryHTML = '';
+  works.forEach(item => {
+  galleryHTML += `
+    <figure>
+      <img src="${item.imageUrl}">
+      <figcaption>${item.title}</figcaption>
+    </figure>
+    `;
+  });
+  galleryElement.innerHTML = galleryHTML;
+}
 
-   works.forEach(item => {
-     galleryHTML += `
-       <figure>
-         <img src="${item.imageUrl}">
-         <figcaption>${item.title}</figcaption>
-       </figure>
-     `;
-   });
-
-   galleryElement.innerHTML = galleryHTML;
- }
 
 // Active la galerie
 filterWorksByCategory(0);

@@ -1,19 +1,9 @@
 const apiUrl = 'http://localhost:5678/api';
 
   
-  async function getUserLogin() {
-    try {
-      const response = await fetch(apiUrl + "/users/login");
-      if (!response.ok) {
-        throw new Error('Erreur de récupération des données');
-      }
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      console.error('Erreur de récupération des données :', error.message);
-      return [];
-    }
-  };
+function getUserLogin() {
+  return `${apiUrl}/users/login`;
+}
 
   async function getCategories() {
     try {
@@ -44,4 +34,4 @@ const apiUrl = 'http://localhost:5678/api';
   };
 
 
-  
+export { getUserLogin, getCategories, getWorks };  
