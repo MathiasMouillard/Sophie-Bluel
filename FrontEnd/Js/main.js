@@ -10,17 +10,11 @@ const categories = ["Tous", "Objets", "Appartements", "Hôtels & restaurants"];
 // Place la balise des boutons dans le html
 const portfolioSection = document.querySelector("#portfolio");
 if (portfolioSection) {
-   const h2Element = portfolioSection.querySelector("h2");
-   if (h2Element) {
-     h2Element.insertAdjacentElement("afterend", buttonsContainer);
-   }
- }
-            // mentora
- //   const h2Element = document.querySelector("#portfolio h2");
- //     if (h2Element) {
- //       h2Element.insertAdjacentElement("afterend", buttonsContainer);
- //     }
-
+    const galleryDiv = portfolioSection.querySelector(".gallery");
+    if (galleryDiv) {
+        portfolioSection.insertBefore(buttonsContainer, galleryDiv);
+    }
+}
 
 // Crée les boutons par rapport au tableau des categories
 let activeButton = null;
@@ -96,10 +90,6 @@ function displayAllWorks(works) {
   galleryElement.innerHTML = galleryHTML;
 }
 
-// Active la galerie
-filterWorksByCategory(0);
-
-
 
 //Admin mode
 const bearerAuth = window.localStorage.getItem("bearerAuth");
@@ -135,3 +125,5 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
+// Active la galerie
+filterWorksByCategory(0);
