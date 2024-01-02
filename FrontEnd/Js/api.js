@@ -1,9 +1,26 @@
 const apiUrl = 'http://localhost:5678/api';
 
   
-function getUserLogin() {
-  return `${apiUrl}/users/login`;
+// function getUserLogin() {
+//  return `${apiUrl}/users/login`;
+// }
+
+async function getUserLogin(loginFormDatas) {
+  try {
+  
+  const response = await fetch(apiUrl + "/users/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(loginFormDatas),
+});
+  return response;
+} catch (error) {
+  console.error('Erreur de récupération des données :', error.message);
+  return [];
 }
+};
+
+
 
   async function getCategories() {
     try {

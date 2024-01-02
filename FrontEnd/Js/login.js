@@ -1,6 +1,5 @@
 import { getUserLogin } from './api.js';
 
-const bearerAuth = window.localStorage.getItem("bearerAuth");
 
 document.querySelector("form").addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -16,12 +15,7 @@ document.querySelector("form").addEventListener("submit", async (e) => {
     const loginFormDatas = { email, password };
     
     try {
-        const response = await fetch(getUserLogin(), {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(loginFormDatas),
-        });
-    
+        const response = await getUserLogin(loginFormDatas)
         if (response.ok) {
             const body = await response.json();
             window.localStorage.setItem("bearerAuth", JSON.stringify(body));

@@ -123,8 +123,6 @@ if (bearerAuth) {
 }
 
 
-
-
 // Remove buttons
 if (bearerAuth) {
   const buttonsContainer = document.querySelector(".buttons-container");
