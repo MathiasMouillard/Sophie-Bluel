@@ -124,6 +124,14 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+// Remove buttons
+if (bearerAuth) {
+  const buttonsContainer = document.querySelector(".buttons-container");
+  if (buttonsContainer) {
+      buttonsContainer.remove();
+  }
+}
 
-// Active la galerie
+
+// Activate gallery
 filterWorksByCategory(0);
