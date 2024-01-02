@@ -39,7 +39,7 @@ categories.forEach((category, index) => {
 
      filterWorksByCategory(categoryId);
    });
- });
+});
 
 
 // Filtre par categorie
@@ -64,7 +64,7 @@ async function filterWorksByCategory(categoryId) {
    });
 
    galleryElement.innerHTML = galleryHTML;
- }
+}
 
 
 // Active premier bouton par défaut
@@ -91,7 +91,8 @@ function displayAllWorks(works) {
 }
 
 
-//Admin mode
+//Admin 
+// Editing mod
 const bearerAuth = window.localStorage.getItem("bearerAuth");
 const editModeBanner = document.getElementById("editModeBanner");
 const categoryButtons = document.querySelectorAll(".filter__btn");
@@ -110,7 +111,29 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-// Admin disconnection
+// Add btn modification
+const btnEditMod = document.createElement("button");
+btnEditMod.className = "btnEditMod";
+btnEditMod.innerHTML = '<i class="fa-regular fa-pen-to-square"></i>modifier';
+
+const jetest = document.querySelector("#portfolio h2");
+
+if (bearerAuth) {
+  jetest.insertAdjacentElement("afterend", btnEditMod);
+}
+
+
+
+
+// Remove buttons
+if (bearerAuth) {
+  const buttonsContainer = document.querySelector(".buttons-container");
+  if (buttonsContainer) {
+      buttonsContainer.remove();
+  }
+};
+
+// Disconnection
 document.addEventListener("DOMContentLoaded", () => {
   if (bearerAuth) {
     loginLogout.textContent = "Logout";
@@ -124,13 +147,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-// Remove buttons
-if (bearerAuth) {
-  const buttonsContainer = document.querySelector(".buttons-container");
-  if (buttonsContainer) {
-      buttonsContainer.remove();
-  }
-}
 
 
 // Activate gallery
