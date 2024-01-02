@@ -298,34 +298,39 @@ input[type="submit"]{
 
 /* Admin mode */
 .background-bar {
-	background-color: black;
-  color: white;
-  text-align: center;
-  padding: 10px 0;
-  position: inherit;
-  top: 0;
-  z-index: 9999;
-  transition: top 0.3s ease-in-out;
+	background-color: black;	
+	padding: 10px 0;
+	z-index: 9999;
+	transition: top 0.3s ease-in-out;
 }
-  #editModeBanner {
-	max-width: auto;
-	margin: 0 auto;
+#editModBanner {
+	max-width: auto;	
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	height: 100%;
 	color: white;
 }
-.edit-mode-banner{
+.edit-mod-banner{
 	display: flex;
 	align-items: baseline;
 }
-#editModeBanner i{
-	margin-right: 5px;
+.btnEditMod i{
+	margin-right: 12px;
 }
-#editModeBanner p{
+.btnEditMod {
+	background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    font: inherit;
 	font-size: 1.1428571428571428em;
+    cursor: pointer;
+    color: inherit;
+    text-decoration: none;
 }
+
+/* Tools */
 .hidden {
 	display: none;
   }
+

@@ -129,7 +129,6 @@ document.addEventListener("DOMContentLoaded", () => {
   loginLogout.addEventListener("click", () => {
     if (bearerAuth) {
       window.localStorage.removeItem("bearerAuth");
-      window.location.replace("index.html");
     } else {
     }
   });
