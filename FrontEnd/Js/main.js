@@ -116,10 +116,10 @@ const btnEditMod = document.createElement("button");
 btnEditMod.className = "btnEditMod";
 btnEditMod.innerHTML = '<i class="fa-regular fa-pen-to-square"></i>modifier';
 
-const jetest = document.querySelector("#portfolio h2");
+const h2Element = document.querySelector("#portfolio h2");
 
 if (bearerAuth) {
-  jetest.insertAdjacentElement("afterend", btnEditMod);
+  h2Element.insertAdjacentElement("afterend", btnEditMod);
 }
 
 
