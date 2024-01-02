@@ -1,5 +1,6 @@
 import { getWorks } from './api.js';
 
+
 // Conteneur des categories
 const buttonsContainer = document.createElement("div");
 buttonsContainer.className = "buttons-container";
@@ -101,12 +102,13 @@ filterWorksByCategory(0);
 
 
 //Admin mode
-document.addEventListener("DOMContentLoaded", () => {
-  const bearerAuth = window.localStorage.getItem("bearerAuth");
-  const editModeBanner = document.getElementById("editModeBanner");
-  const categoryButtons = document.querySelectorAll(".filter__btn");
-  const backgroundBar = document.querySelector(".background-bar"); 
+const bearerAuth = window.localStorage.getItem("bearerAuth");
+const editModeBanner = document.getElementById("editModeBanner");
+const categoryButtons = document.querySelectorAll(".filter__btn");
+const backgroundBar = document.querySelector(".background-bar"); 
+const loginLogout = document.getElementById("loginLogoutLink");
 
+document.addEventListener("DOMContentLoaded", () => {
   if (bearerAuth) {
     editModeBanner.style.top = "0";
     categoryButtons.forEach(button => {
@@ -117,11 +119,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-// Déconnexion admin
-document.addEventListener("DOMContentLoaded", () => {
-  const bearerAuth = window.localStorage.getItem("bearerAuth");
-  const loginLogout = document.getElementById("loginLogoutLink");
 
+// Admin disconnection
+document.addEventListener("DOMContentLoaded", () => {
   if (bearerAuth) {
     loginLogout.textContent = "Logout";
   }
@@ -133,3 +133,5 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+
+

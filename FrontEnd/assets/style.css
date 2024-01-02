@@ -237,6 +237,7 @@ footer nav ul {
 	display: block;
     text-align: center;
 	margin-bottom: 20rem;
+	color: black;
 }
 
 input[type="submit"]{
@@ -315,7 +316,7 @@ input[type="submit"]{
 	align-items: baseline;
 }
 .btnEditMod i{
-	margin-right: 12px;
+	margin-right: 10px;
 }
 .btnEditMod {
 	background: none;
