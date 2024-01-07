@@ -101,7 +101,7 @@ const loginLogout = document.getElementById("loginLogoutLink");
 
 document.addEventListener("DOMContentLoaded", () => {
   if (bearerAuth) {
-    editModeBanner.style.top = "0";
+    editModBanner.style.top = "0";
     categoryButtons.forEach(button => {
       button.style.display = "none";
     });

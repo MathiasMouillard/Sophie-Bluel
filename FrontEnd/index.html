@@ -69,7 +69,6 @@
 		</form>
 	</section>
 </main>
-
 <footer>
 	<nav>
 		<ul>
@@ -77,5 +76,59 @@
 		</ul>
 	</nav>
 </footer>
+
+<aside id="aside1" class="modal" aria-hidden="true" style="display: none;">
+    <div class="modal-content">
+        <a href="#" class="iconTop modal-close"><i class="fas fa-times"></i></a>
+        <h2>Galerie photo</h2>
+        <div class="modalGallery">
+            <!-- Afficher la galerie -->
+        </div>
+		<div class="footerModal">
+			<hr class="horizontal-line">
+        	<button id="addPhotoBtn" class="btnModal">Ajouter une photo</button>
+		</div>
+    </div>
+</aside>
+
+<aside id="aside2" class="modal" aria-hidden="true" style=>
+    <div class="modal-content">
+        <a href="#" class="iconTop modal-arrow"><i class="fa-solid fa-arrow-left"></i></a>
+        <a href="#" class="iconTop modal-close"><i class="fas fa-times"></i></a>
+        <h2>Ajout Photo</h2>
+        <div class="photo-upload">
+			<div class="upload-container">
+				<i class="fa-regular fa-image"></i>
+				<form id="photoUploadForm" enctype="multipart/form-data">
+					<input type="file" id="photoFile" name="photoFile" accept=".jpg, .jpeg, .png" />
+					<button type="submit" id="submitPhoto" class="btnSubmitPhoto">
+						+ Ajouter photo
+					</button>
+				</form>
+				<p>jpg, png : 4Mo max</p>
+			</div>
+		</div>
+		<div class="info-categorie">
+        	<h3>Titre</h3>
+        	<input type="text" id="photoTitle">
+        	<h3>Catégorie</h3>
+        		<!-- Boîte de sélection des catégories -->
+        	<select id="categorySelect">
+				<option value="" disabled selected hidden></option>
+            	<option value="1">Objets</option>
+				<option value="2">Appartements</option>
+				<option value="3">Hôtels & restaurants</option>
+        	</select>
+		</div>
+		<div class="footerModal">
+				<hr class="horizontal-line">
+        		<button id="submitPhoto" class="btnModal">Valider</button>
+		</div>
+	</div>
+</aside>
+
+
+<script src="./Js/modal.js" type='module'></script>
+
 </body>
 </html>

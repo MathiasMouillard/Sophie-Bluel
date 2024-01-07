@@ -1,10 +1,6 @@
 const apiUrl = 'http://localhost:5678/api';
 
   
-// function getUserLogin() {
-//  return `${apiUrl}/users/login`;
-// }
-
 async function getUserLogin(loginFormDatas) {
   try {
   
@@ -21,13 +17,12 @@ async function getUserLogin(loginFormDatas) {
 };
 
 
-
-  async function getCategories() {
-    try {
-    const response = await fetch(apiUrl + "/categories");
-    if (!response.ok) {
-      throw new Error('Erreur de récupération des données');
-    }
+async function getCategories() {
+  try {
+  const response = await fetch(apiUrl + "/categories");
+  if (!response.ok) {
+    throw new Error('Erreur de récupération des données');
+  }
     const data = await response.json();
     return data;
   } catch (error) {
@@ -35,20 +30,21 @@ async function getUserLogin(loginFormDatas) {
     return [];
   }
 };
-   
-  async function getWorks() {
-    try {
-      const response = await fetch(apiUrl + "/works");
-      if (!response.ok) {
-        throw new Error('Erreur de récupération des données');
-      }
+ 
+
+async function getWorks() {
+  try {
+    const response = await fetch(apiUrl + "/works");
+    if (!response.ok) {
+      throw new Error('Erreur de récupération des données');
+    }
       const data = await response.json();
       return data;
     } catch (error) {
       console.error('Erreur de récupération des données :', error.message);
       return [];
-    }
-  };
+  }
+};
 
 
 export { getUserLogin, getCategories, getWorks };  
