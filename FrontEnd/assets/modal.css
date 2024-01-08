@@ -59,28 +59,54 @@ body.modal-open {
 
 
 /* Aside 1 */
-#aside1 .modalGallery {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+.modal-content h2 {
+    margin-bottom: 46px;
 }
-#aside1 .gallery-item {
+.modalGallery {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    margin: 0 105px;
+    gap: 5px;
+  }
+.modalGallery img {
+    width: 98%;
+    margin-bottom: 25px;
+  }
+.gallery-item {
     width: 20%;
     margin: 10px;
     position: relative;
 }
-#aside1 .gallery-item img {
+.gallery-item img {
     max-width: 100%;
     height: auto;
 }
-#aside1 .delete-icon {
+.image-container {
+    position: relative;
+    display: inline-block;
+  }
+.delete-background {
     position: absolute;
-    top: 10px;
-    right: 10px;
-    width: 24px;
-    height: 24px;
-    background: black;
+    top: 6px;
+    right: 6px;
+    width: 17px;
+    height: 17px;
+    border-radius: 2px;
+    background-color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
 }
+.image-container:hover .delete-background {
+    opacity: 1;
+}  
+.delete-icon {
+    font-size: 9px;
+    color: white;
+}
+   
+
 
 /* Aside 2 */
 .photo-upload {
