@@ -94,7 +94,7 @@ function displayAllWorks(works) {
 //Admin 
 // Editing mod
 const bearerAuth = window.localStorage.getItem("bearerAuth");
-const editModeBanner = document.getElementById("editModeBanner");
+const editModBanner = document.getElementById("editModBanner");
 const categoryButtons = document.querySelectorAll(".filter__btn");
 const backgroundBar = document.querySelector(".background-bar"); 
 const loginLogout = document.getElementById("loginLogoutLink");
@@ -113,7 +113,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Add btn modification
 const btnEditMod = document.createElement("button");
-btnEditMod.className = "btnEditMod";
+btnEditMod.className = "btnEditModal";
 btnEditMod.innerHTML = '<i class="fa-regular fa-pen-to-square"></i>modifier';
 
 const h2Element = document.querySelector("#portfolio h2");
@@ -140,7 +140,6 @@ document.addEventListener("DOMContentLoaded", () => {
   loginLogout.addEventListener("click", () => {
     if (bearerAuth) {
       window.localStorage.removeItem("bearerAuth");
-    } else {
     }
   });
 });

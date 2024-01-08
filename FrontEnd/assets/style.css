@@ -332,10 +332,10 @@ input[type="submit"]{
 	display: flex;
 	align-items: baseline;
 }
-.btnEditMod i{
-	margin-right: 10px;
+.btnEditBanner i{
+	margin-right: 11px;
 }
-.btnEditMod {
+.btnEditMod, .btnEditModal {
 	background: none;
     border: none;
     padding: 0;
@@ -345,6 +345,9 @@ input[type="submit"]{
     cursor: pointer;
     color: inherit;
     text-decoration: none;
+}
+.btnEditModal i {
+	margin-right: 10px;
 }
 
 /* Tools */
