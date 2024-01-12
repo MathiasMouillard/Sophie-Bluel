@@ -5,10 +5,17 @@ import { getWorks } from './api.js';
 const buttonsContainer = document.createElement("div");
 buttonsContainer.className = "buttons-container";
 const categories = ["Tous", "Objets", "Appartements", "Hôtels & restaurants"];
-
+const portfolioSection = document.querySelector("#portfolio");
+const galleryElement = document.querySelector('.gallery');
+const bearerAuth = window.localStorage.getItem("bearerAuth");
+const editModBanner = document.getElementById("editModBanner");
+const categoryButtons = document.querySelectorAll(".filter__btn");
+const backgroundBar = document.querySelector(".background-bar"); 
+const loginLogout = document.getElementById("loginLogoutLink");
+const btnEditMod = document.createElement("button");
+const h2Element = document.querySelector("#portfolio h2");
 
 // Place la balise des boutons dans le html
-const portfolioSection = document.querySelector("#portfolio");
 if (portfolioSection) {
     const galleryDiv = portfolioSection.querySelector(".gallery");
     if (galleryDiv) {
@@ -69,13 +76,12 @@ async function filterWorksByCategory(categoryId) {
 
 // Active premier bouton par défaut
 const firstButton = buttonsContainer.querySelector("button[data-category-id='0']");
-
 firstButton.classList.add("filter__btn--active");
 activeButton = firstButton;
 
 
 // Affiche la galerie
-const galleryElement = document.querySelector('.gallery');
+
 let galleryHTML = '';
 
 function displayAllWorks(works) {
@@ -93,12 +99,6 @@ function displayAllWorks(works) {
 
 //Admin 
 // Editing mod
-const bearerAuth = window.localStorage.getItem("bearerAuth");
-const editModBanner = document.getElementById("editModBanner");
-const categoryButtons = document.querySelectorAll(".filter__btn");
-const backgroundBar = document.querySelector(".background-bar"); 
-const loginLogout = document.getElementById("loginLogoutLink");
-
 document.addEventListener("DOMContentLoaded", () => {
   if (bearerAuth) {
     editModBanner.style.top = "0";
@@ -112,16 +112,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 // Add btn modification
-const btnEditMod = document.createElement("button");
 btnEditMod.className = "btnEditModal";
 btnEditMod.innerHTML = '<i class="fa-regular fa-pen-to-square"></i>modifier';
-
-const h2Element = document.querySelector("#portfolio h2");
 
 if (bearerAuth) {
   h2Element.insertAdjacentElement("afterend", btnEditMod);
 }
-
 
 // Remove buttons
 if (bearerAuth) {

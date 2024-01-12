@@ -97,17 +97,17 @@
         <a href="#" class="iconTop modal-close"><i class="fas fa-times"></i></a>
         <h2>Ajout Photo</h2>
         <div class="photo-upload">
-			<div class="upload-container">
+			<div class="upload-container" id="uploadContainer">
 				<i class="fa-regular fa-image"></i>
 				<form id="photoUploadForm" enctype="multipart/form-data">
-					<input type="file" id="photoFile" name="photoFile" accept=".jpg, .jpeg, .png" />
-					<button type="submit" id="submitPhoto" class="btnSubmitPhoto">
+					<input type="file" id="photoFile" name="photoFile" accept=".jpg, .png" />
+					<button type="submit" id="searchPhoto" class="btnSubmitPhoto">
 						+ Ajouter photo
 					</button>
 				</form>
 				<p>jpg, png : 4Mo max</p>
 			</div>
-		</div>
+		</div>		
 		<div class="info-categorie">
         	<h3>Titre</h3>
         	<input type="text" id="photoTitle">

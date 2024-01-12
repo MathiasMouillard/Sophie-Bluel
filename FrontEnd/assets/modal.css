@@ -112,9 +112,8 @@ body.modal-open {
 .photo-upload {
     display: flex;
     justify-content: center;
-	margin-top: 36px;
 }
-.photo-upload .fa-image {
+.upload-container .fa-image {
 	margin-top: 25px;
 	margin-bottom: 10px;
 	font-size: 60px;
