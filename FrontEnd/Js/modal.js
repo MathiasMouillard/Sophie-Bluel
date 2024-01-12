@@ -170,7 +170,7 @@ function validateForm() {
 }
 
 
-// Suppression Img
+// Delete Img
 
 document.addEventListener("click", async (event) => {
   if (event.target.classList.contains("delete-icon")) {
