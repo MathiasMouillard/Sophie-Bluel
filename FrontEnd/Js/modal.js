@@ -11,7 +11,7 @@ const addPhotoBtn = document.getElementById("addPhotoBtn");
 const btnAjouterPhoto = document.getElementById("searchPhoto");
 const inputPhotoFile = document.getElementById("photoFile");
 const uploadContainer = document.getElementById("uploadContainer");
-
+const bearerAuth = JSON.parse(localStorage.getItem("bearerAuth"));
 
 // -- Modal Global
 
@@ -60,9 +60,9 @@ async function fetchAndDisplayGallery() {
     galleryData.forEach(item => {
       galleryHTML += `
       <div class="image-container">
-      <img src="${item.imageUrl}">
+      <img src="${item.imageUrl}" >
       <div class="delete-background">
-        <i class="fa-solid fa-trash-can delete-icon" data-image-id="${item.id}"></i>
+        <i class="fa-solid fa-trash-can delete-icon"></i>
       </div>
     </div>
       `;
@@ -84,8 +84,7 @@ btnAjouterPhoto.addEventListener("click", (event) => {
 inputPhotoFile.addEventListener("change", (event) => {
     // Vous pouvez accéder au fichier sélectionné par l'utilisateur via event.target.files[0].
     const selectedFile = event.target.files[0];
-    
-   
+       
     if (selectedFile) {
         // Créez un objet URL pour l'affichage de l'image sélectionnée.
         const imageURL = URL.createObjectURL(selectedFile);        
@@ -101,3 +100,71 @@ inputPhotoFile.addEventListener("change", (event) => {
         uploadContainer.appendChild(img);
     }
 });
+
+
+// Ajout Image
+
+// Sélectionnez les éléments du formulaire dans le Modal 2
+const photoTitleInput = document.getElementById("photoTitle");
+const categorySelect = document.getElementById("categorySelect");
+const submitPhotoBtn = document.getElementById("submitPhoto");
+
+// Écoutez l'événement de soumission du formulaire
+submitPhotoBtn.addEventListener("click", async (event) => {
+    event.preventDefault();
+
+    // Récupérez les valeurs du titre, de la catégorie et du fichier image
+    const title = photoTitleInput.value;
+    const category = categorySelect.value;
+    const file = inputPhotoFile.files[0];
+
+    // Créez un objet FormData et ajoutez les données
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("category", category);
+    formData.append("image", file);
+
+    try {
+        // Effectuez une requête HTTP POST vers votre API
+        const response = await fetch("http://localhost:5678/api/works", {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${bearerAuth.token}`,
+              accept: "application/json",
+             },
+             body: formData,
+        });
+
+        if (response.ok) {
+            window.location.reload();
+            aside2.style.display = "none";
+            document.body.classList.remove("modal-open");
+        } else {
+            // La requête a échoué, affichez un message d'erreur
+            alert("Erreur lors de l'ajout de l'image à votre API.");
+        }
+    } catch (error) {
+        console.error("Erreur lors de la requête vers l'API :", error);
+        alert("Une erreur s'est produite lors de la communication avec l'API.");
+    }
+});
+
+
+// Fonction pour valider le formulaire
+inputPhotoFile.addEventListener("change", validateForm);
+photoTitleInput.addEventListener("input", validateForm);
+categorySelect.addEventListener("input", validateForm);
+
+function validateForm() {
+  const title = photoTitleInput.value;
+  const category = categorySelect.value;
+  const file = inputPhotoFile.files[0];
+
+  if (title && category && file) {
+    submitPhotoBtn.disabled = false;
+    submitPhotoBtn.classList.remove('disabled-button');
+  } else {
+    submitPhotoBtn.disabled = true;
+    submitPhotoBtn.classList.add('disabled-button');
+  }
+}

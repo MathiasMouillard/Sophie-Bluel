@@ -185,3 +185,10 @@ body.modal-open {
 	background-repeat: no-repeat;
 	padding-right: 30px;
 }
+
+.disabled-button {
+    background-color: grey;
+    color: white;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
