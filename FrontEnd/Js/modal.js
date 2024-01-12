@@ -1,5 +1,6 @@
 import { getWorks } from './api.js';
 
+const bearerAuth = JSON.parse(localStorage.getItem("bearerAuth"));
 const btnEditModal = document.querySelector(".btnEditModal");
 const aside1 = document.getElementById("aside1");
 const aside2 = document.getElementById("aside2");
@@ -11,7 +12,7 @@ const addPhotoBtn = document.getElementById("addPhotoBtn");
 const btnAjouterPhoto = document.getElementById("searchPhoto");
 const inputPhotoFile = document.getElementById("photoFile");
 const uploadContainer = document.getElementById("uploadContainer");
-const bearerAuth = JSON.parse(localStorage.getItem("bearerAuth"));
+
 
 // -- Modal Global
 
@@ -59,7 +60,7 @@ async function fetchAndDisplayGallery() {
     let galleryHTML = '';
     galleryData.forEach(item => {
       galleryHTML += `
-      <div class="image-container">
+      <div class="image-container" data-image-id="${item.id}">
       <img src="${item.imageUrl}" >
       <div class="delete-background">
         <i class="fa-solid fa-trash-can delete-icon"></i>
@@ -140,7 +141,6 @@ submitPhotoBtn.addEventListener("click", async (event) => {
             aside2.style.display = "none";
             document.body.classList.remove("modal-open");
         } else {
-            // La requête a échoué, affichez un message d'erreur
             alert("Erreur lors de l'ajout de l'image à votre API.");
         }
     } catch (error) {
@@ -168,3 +168,36 @@ function validateForm() {
     submitPhotoBtn.classList.add('disabled-button');
   }
 }
+
+
+// Suppression Img
+
+document.addEventListener("click", async (event) => {
+  if (event.target.classList.contains("delete-icon")) {
+    // Get parent
+    const imageContainer = event.target.closest(".image-container");
+    if (imageContainer) {
+      // Get img id
+      const imageId = imageContainer.getAttribute("data-image-id");
+      try {
+        // Request api for delete img
+        const response = await fetch(`http://localhost:5678/api/works/${imageId}`, {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${bearerAuth.token}`,
+          },
+        });
+
+        if (response.ok) {
+          // Après la suppression réussie, vous pouvez actualiser la galerie ou effectuer d'autres actions pour mettre à jour l'affichage.
+          // Par exemple, vous pouvez appeler fetchAndDisplayGallery() à nouveau pour recharger la galerie.
+          await fetchAndDisplayGallery();
+        } else {
+          console.error("La suppression de l'image dans l'API a échoué.");
+        }
+      } catch (error) {
+        console.error("Erreur lors de la requête DELETE vers l'API :", error);
+      }
+    }
+  }
+});
