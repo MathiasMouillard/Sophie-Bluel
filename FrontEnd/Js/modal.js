@@ -14,36 +14,43 @@ const inputPhotoFile = document.getElementById("photoFile");
 const uploadContainer = document.getElementById("uploadContainer");
 
 
-// -- Modal Global
-
-// Redirection to Modal 2
-addPhotoBtn.addEventListener("click", function(event) {
-  event.preventDefault();
+// --- Modal Global ---
+// Open Modal 2
+function openModal2() {
   aside1.style.display = "none";
   aside2.style.display = "block";
-});
-  
-// Redirection to Modal 1
-modalArrow.addEventListener("click", function(event) {
-  event.preventDefault();
+}
+// Open Modal 1
+function openModal1() {
   aside1.style.display = "block";
   aside2.style.display = "none";
-});
-
-// fermeture Modal
-modal1CloseBtn.addEventListener("click", function(event) {
-  event.preventDefault();
+}
+// Refresh page
+function refreshPage() {
   aside1.style.display = "none";
-  document.body.classList.remove("modal-open");
-});
-modal2CloseBtn.addEventListener("click", function(event) {
-  event.preventDefault();
   aside2.style.display = "none";
   document.body.classList.remove("modal-open");
+  window.location.reload();
+}
+function outClick() {
+  aside1.style.display = "none";
+  aside2.style.display = "none";
+  document.body.classList.remove("modal-open");
+}
+// Redirection vers Modal 2
+addPhotoBtn.addEventListener("click", openModal2);
+// Redirection vers Modal 1
+modalArrow.addEventListener("click", function(event) {
+  event.preventDefault();
+  openModal1();
 });
+// Fermeture de Modal 1
+modal1CloseBtn.addEventListener("click", refreshPage);
+// Fermeture de Modal 2
+modal2CloseBtn.addEventListener("click", refreshPage);
 
 
-// -- Modal 1 Gallery 
+// --- Modal 1 Gallery 
 
 // Ouverture Modal de Gallerie
 btnEditModal.addEventListener("click", async function() {
@@ -113,7 +120,7 @@ const submitPhotoBtn = document.getElementById("submitPhoto");
 // Écoutez l'événement de soumission du formulaire
 submitPhotoBtn.addEventListener("click", async (event) => {
     event.preventDefault();
-
+    
     // Récupérez les valeurs du titre, de la catégorie et du fichier image
     const title = photoTitleInput.value;
     const category = categorySelect.value;
@@ -170,7 +177,7 @@ function validateForm() {
 }
 
 
-// Delete Img
+// delete Img
 
 document.addEventListener("click", async (event) => {
   if (event.target.classList.contains("delete-icon")) {
@@ -199,5 +206,29 @@ document.addEventListener("click", async (event) => {
         console.error("Erreur lors de la requête DELETE vers l'API :", error);
       }
     }
+  }
+});
+
+
+
+
+
+// Out click modal close
+function outClick2() {
+  aside1.style.display = "none";
+  document.body.classList.remove("modal-open");
+}
+
+aside1.addEventListener("click", function(event) {
+  event.stopPropagation();
+  console.log("Clic à l'intérieur du modal");
+});
+
+document.addEventListener("click", function(event) {
+  const computedStyle = window.getComputedStyle(aside1);
+  if (computedStyle.display === "none") {
+    console.log("Clic en dehors du modal et aside1 n'est pas affiché");
+  } else if (!aside1.contains(event.target)) {
+    console.log("Clic en dehors du modal");
   }
 });
