@@ -133,7 +133,6 @@ submitPhotoBtn.addEventListener("click", async (event) => {
     formData.append("image", file);
 
     try {
-        // Effectuez une requête HTTP POST vers votre API
         const response = await fetch("http://localhost:5678/api/works", {
             method: "POST",
             headers: {
