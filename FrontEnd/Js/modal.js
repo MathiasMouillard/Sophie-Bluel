@@ -1,6 +1,8 @@
 import { getWorks } from './api.js';
 
-const bearerAuth = JSON.parse(localStorage.getItem("bearerAuth"));
+// Ryada , je dois obligatoirement refaire une variable ou un import ?
+const galleryElement = document.querySelector('.gallery');
+
 const btnEditModal = document.querySelector(".btnEditModal");
 const aside1 = document.getElementById("aside1");
 const aside2 = document.getElementById("aside2");
@@ -12,7 +14,7 @@ const addPhotoBtn = document.getElementById("addPhotoBtn");
 const btnAjouterPhoto = document.getElementById("searchPhoto");
 const inputPhotoFile = document.getElementById("photoFile");
 const uploadContainer = document.getElementById("uploadContainer");
-
+const bearerAuth = JSON.parse(localStorage.getItem("bearerAuth"));
 
 // --- Modal Global ---
 // Open Modal 2
@@ -30,13 +32,8 @@ function refreshPage() {
   aside1.style.display = "none";
   aside2.style.display = "none";
   document.body.classList.remove("modal-open");
-  window.location.reload();
 }
-function outClick() {
-  aside1.style.display = "none";
-  aside2.style.display = "none";
-  document.body.classList.remove("modal-open");
-}
+
 // Redirection vers Modal 2
 addPhotoBtn.addEventListener("click", openModal2);
 // Redirection vers Modal 1
@@ -77,6 +74,7 @@ async function fetchAndDisplayGallery() {
     });
 
     modalGallery.innerHTML = galleryHTML;
+    galleryElement.innerHTML = galleryHTML;
   } catch (error) {
     console.error("Erreur lors de la récupération des données de la galerie :", error);
   }
@@ -143,7 +141,20 @@ submitPhotoBtn.addEventListener("click", async (event) => {
         });
 
         if (response.ok) {
-            window.location.reload();
+            //Ryade window.location.reload();
+            const galleryDatae = await getWorks();
+
+            let galleryHTML = '';
+            galleryDatae.forEach(item => {
+              galleryHTML += `
+              <figure>
+                <img src="${item.imageUrl}">
+                <figcaption>${item.title}</figcaption>
+              </figure>
+              `;
+            });
+            galleryElement.innerHTML = galleryHTML;
+            modalGallery.innerHTML = galleryHTML;
             aside2.style.display = "none";
             document.body.classList.remove("modal-open");
         } else {
@@ -195,8 +206,6 @@ document.addEventListener("click", async (event) => {
         });
 
         if (response.ok) {
-          // Après la suppression réussie, vous pouvez actualiser la galerie ou effectuer d'autres actions pour mettre à jour l'affichage.
-          // Par exemple, vous pouvez appeler fetchAndDisplayGallery() à nouveau pour recharger la galerie.
           await fetchAndDisplayGallery();
         } else {
           console.error("La suppression de l'image dans l'API a échoué.");
@@ -205,29 +214,5 @@ document.addEventListener("click", async (event) => {
         console.error("Erreur lors de la requête DELETE vers l'API :", error);
       }
     }
-  }
-});
-
-
-
-
-
-// Out click modal close
-function outClick2() {
-  aside1.style.display = "none";
-  document.body.classList.remove("modal-open");
-}
-
-aside1.addEventListener("click", function(event) {
-  event.stopPropagation();
-  console.log("Clic à l'intérieur du modal");
-});
-
-document.addEventListener("click", function(event) {
-  const computedStyle = window.getComputedStyle(aside1);
-  if (computedStyle.display === "none") {
-    console.log("Clic en dehors du modal et aside1 n'est pas affiché");
-  } else if (!aside1.contains(event.target)) {
-    console.log("Clic en dehors du modal");
   }
 });

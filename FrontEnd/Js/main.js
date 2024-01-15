@@ -80,11 +80,10 @@ firstButton.classList.add("filter__btn--active");
 activeButton = firstButton;
 
 
-// Affiche la galerie
-
-let galleryHTML = '';
+// Fonction affichage de la galerie
 
 function displayAllWorks(works) {
+  let galleryHTML = '';
   works.forEach(item => {
   galleryHTML += `
     <figure>
