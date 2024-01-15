@@ -1,21 +1,24 @@
 import { getWorks } from './api.js';
 
+let activeButton = null;
 
-// Conteneur des categories
-const buttonsContainer = document.createElement("div");
-buttonsContainer.className = "buttons-container";
 const categories = ["Tous", "Objets", "Appartements", "Hôtels & restaurants"];
 const portfolioSection = document.querySelector("#portfolio");
-const galleryElement = document.querySelector('.gallery');
 const bearerAuth = window.localStorage.getItem("bearerAuth");
 const editModBanner = document.getElementById("editModBanner");
 const categoryButtons = document.querySelectorAll(".filter__btn");
 const backgroundBar = document.querySelector(".background-bar"); 
 const loginLogout = document.getElementById("loginLogoutLink");
-const btnEditMod = document.createElement("button");
 const h2Element = document.querySelector("#portfolio h2");
+const galleryElement = document.querySelector('.gallery');
+const buttonsContainer = document.createElement("div");
+buttonsContainer.className = "buttons-container";
+const btnEditMod = document.createElement("button");
+btnEditMod.className = "btnEditModal";
+btnEditMod.innerHTML = '<i class="fa-regular fa-pen-to-square"></i>modifier';
 
-// Place la balise des boutons dans le html
+
+// Add button on html
 if (portfolioSection) {
     const galleryDiv = portfolioSection.querySelector(".gallery");
     if (galleryDiv) {
@@ -23,9 +26,7 @@ if (portfolioSection) {
     }
 }
 
-// Crée les boutons par rapport au tableau des categories
-let activeButton = null;
-
+// Create bbuttons based on the categories array
 categories.forEach((category, index) => {
    let button = document.createElement("button");
    button.textContent = category;
@@ -48,8 +49,7 @@ categories.forEach((category, index) => {
    });
 });
 
-
-// Filtre par categorie
+// Category filter
 async function filterWorksByCategory(categoryId) {
   const data = await getWorks();
 
@@ -73,15 +73,12 @@ async function filterWorksByCategory(categoryId) {
    galleryElement.innerHTML = galleryHTML;
 }
 
-
-// Active premier bouton par défaut
+// First button by default
 const firstButton = buttonsContainer.querySelector("button[data-category-id='0']");
 firstButton.classList.add("filter__btn--active");
 activeButton = firstButton;
 
-
-// Fonction affichage de la galerie
-
+// Show gallery
 function displayAllWorks(works) {
   let galleryHTML = '';
   works.forEach(item => {
@@ -109,11 +106,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-
 // Add btn modification
-btnEditMod.className = "btnEditModal";
-btnEditMod.innerHTML = '<i class="fa-regular fa-pen-to-square"></i>modifier';
-
 if (bearerAuth) {
   h2Element.insertAdjacentElement("afterend", btnEditMod);
 }
@@ -138,7 +131,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
-
 
 
 // Activate gallery

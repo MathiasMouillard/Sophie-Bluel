@@ -17,6 +17,7 @@ const bearerAuth = JSON.parse(localStorage.getItem("bearerAuth"));
 const imageContainers = document.querySelectorAll('.image-container')
 const galleryElement = document.querySelector('.gallery');
 
+
 // --- Modal Global ---
 // Open Modal 2
 function openModal2(e) {
@@ -38,26 +39,26 @@ function refreshModal(e) {
   document.body.classList.remove("modal-open");
 }
 
-// Redirection vers Modal 2
+// Redirection to Modal 2
 addPhotoBtn.addEventListener("click", openModal2);
-// Redirection vers Modal 1
+// Redirection to Modal 1
 modalArrow.addEventListener("click", openModal1);
-// Fermeture de Modal 1
+// Close Modal 1
 modal1CloseBtn.addEventListener("click", refreshModal);
-// Fermeture de Modal 2
+// Close Modal 2
 modal2CloseBtn.addEventListener("click", refreshModal);
 
 
 // --- Modal 1 Gallery 
 
-// Ouverture Modal de Gallerie
+// Open gallery modal
 btnEditModal.addEventListener("click", async function() {
   aside1.removeAttribute("style");
   document.body.classList.add("modal-open");
   await fetchAndDisplayGallery();
 });
 
-// Fonction pour charger et afficher la galerie
+// Load and display gallery
 async function fetchAndDisplayGallery() {
   try {
     const galleryData = await getWorks();
@@ -79,19 +80,21 @@ async function fetchAndDisplayGallery() {
   }
 }
  
+
+// --- Modal 2 Form
+
 // photo selection
 btnAjouterPhoto.addEventListener("click", (event) => {
     event.preventDefault();
     inputPhotoFile.click();
 });
 
-// Ajoutez un gestionnaire d'événements change à l'élément d'entrée de fichier.
+// change container to file
 inputPhotoFile.addEventListener("change", (event) => {
-    // fichier sélectionné par l'utilisateur via event.target.files[0].
-    const selectedFile = event.target.files[0];
-       
+    //  File selected by user for event.target.files[0].
+    const selectedFile = event.target.files[0];       
     if (selectedFile) {
-        // Créez un objet URL pour l'affichage de l'image sélectionnée.
+        // Create url item
         const imageURL = URL.createObjectURL(selectedFile);        
         // Create img
         const img = new Image();
@@ -111,7 +114,8 @@ inputPhotoFile.addEventListener("change", (event) => {
 });
 
 
-// --- Ajout Image
+// ---- Adding Image Api
+
 function getFormValues() {
   const title = photoTitleInput.value;
   const category = categorySelect.value;
@@ -119,11 +123,11 @@ function getFormValues() {
   return { title, category, file };
 }
 
-// Event du formulaire
+// Form event
 submitPhotoBtn.addEventListener("click", async () => {
-    // Récupére les valeurs du titre, catégorie et du fichier image
+    // Receive title , category and img file value
     const { title, category, file } = getFormValues();
-    // Crée un objet FormData et y ajoute les données
+    // create FormData & adding data
     const formData = new FormData();
     formData.append("title", title);
     formData.append("category", category);
@@ -176,14 +180,13 @@ submitPhotoBtn.addEventListener("click", async () => {
 });
 
 
-// Fonction pour valider le formulaire
+// Form validation
 inputPhotoFile.addEventListener("change", validateForm);
 photoTitleInput.addEventListener("input", validateForm);
 categorySelect.addEventListener("input", validateForm);
 
 function validateForm() {
   const { title, category, file } = getFormValues();
-
   if (title && category && file) {
     submitPhotoBtn.disabled = false;
     submitPhotoBtn.classList.remove('disabled-button');
@@ -194,8 +197,7 @@ function validateForm() {
 }
 
 
-// delete Img
-
+// ---- Delete Img
 document.addEventListener("click", async (event) => {
   if (event.target.classList.contains("delete-icon")) {
     // Get parent
@@ -211,7 +213,6 @@ document.addEventListener("click", async (event) => {
             Authorization: `Bearer ${bearerAuth.token}`,
           },
         });
-
         if (response.ok) {
           await fetchAndDisplayGallery();
         } else {
