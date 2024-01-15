@@ -1,8 +1,5 @@
 import { getWorks } from './api.js';
 
-// Ryada , je dois obligatoirement refaire une variable ou un import ?
-const galleryElement = document.querySelector('.gallery');
-
 const btnEditModal = document.querySelector(".btnEditModal");
 const aside1 = document.getElementById("aside1");
 const aside2 = document.getElementById("aside2");
@@ -13,22 +10,29 @@ const modalGallery = document.querySelector("#aside1 .modalGallery");
 const addPhotoBtn = document.getElementById("addPhotoBtn");
 const btnAjouterPhoto = document.getElementById("searchPhoto");
 const inputPhotoFile = document.getElementById("photoFile");
-const uploadContainer = document.getElementById("uploadContainer");
+const photoTitleInput = document.getElementById("photoTitle");
+const categorySelect = document.getElementById("categorySelect");
+const submitPhotoBtn = document.getElementById("submitPhoto");
 const bearerAuth = JSON.parse(localStorage.getItem("bearerAuth"));
+const imageContainers = document.querySelectorAll('.image-container')
+const galleryElement = document.querySelector('.gallery');
 
 // --- Modal Global ---
 // Open Modal 2
-function openModal2() {
+function openModal2(e) {
+  e.preventDefault();
   aside1.style.display = "none";
   aside2.style.display = "block";
 }
 // Open Modal 1
-function openModal1() {
+function openModal1(e) {
+  e.preventDefault();
   aside1.style.display = "block";
   aside2.style.display = "none";
 }
-// Refresh page
-function refreshPage() {
+// Refresh Modal
+function refreshModal(e) {
+  e.preventDefault();
   aside1.style.display = "none";
   aside2.style.display = "none";
   document.body.classList.remove("modal-open");
@@ -37,14 +41,11 @@ function refreshPage() {
 // Redirection vers Modal 2
 addPhotoBtn.addEventListener("click", openModal2);
 // Redirection vers Modal 1
-modalArrow.addEventListener("click", function(event) {
-  event.preventDefault();
-  openModal1();
-});
+modalArrow.addEventListener("click", openModal1);
 // Fermeture de Modal 1
-modal1CloseBtn.addEventListener("click", refreshPage);
+modal1CloseBtn.addEventListener("click", refreshModal);
 // Fermeture de Modal 2
-modal2CloseBtn.addEventListener("click", refreshPage);
+modal2CloseBtn.addEventListener("click", refreshModal);
 
 
 // --- Modal 1 Gallery 
@@ -72,9 +73,7 @@ async function fetchAndDisplayGallery() {
     </div>
       `;
     });
-
-    modalGallery.innerHTML = galleryHTML;
-    galleryElement.innerHTML = galleryHTML;
+    modalGallery.innerHTML = galleryHTML;   
   } catch (error) {
     console.error("Erreur lors de la récupération des données de la galerie :", error);
   }
@@ -88,7 +87,7 @@ btnAjouterPhoto.addEventListener("click", (event) => {
 
 // Ajoutez un gestionnaire d'événements change à l'élément d'entrée de fichier.
 inputPhotoFile.addEventListener("change", (event) => {
-    // Vous pouvez accéder au fichier sélectionné par l'utilisateur via event.target.files[0].
+    // fichier sélectionné par l'utilisateur via event.target.files[0].
     const selectedFile = event.target.files[0];
        
     if (selectedFile) {
@@ -100,65 +99,75 @@ inputPhotoFile.addEventListener("change", (event) => {
         // Resize file
         img.style.maxHeight = "100%";
         img.style.maxWidth = "100%";        
-        // Delete content
-        uploadContainer.innerHTML = '';        
+        // Hide content
+        const uploadContainer = document.getElementById("uploadContainer");
+        const uploadContainerChildren = uploadContainer.children;
+        for (let i = 0; i < uploadContainerChildren.length; i++) {
+         uploadContainerChildren[i].style.display = "none";
+        }
         // Add file
         uploadContainer.appendChild(img);
     }
 });
 
 
-// Ajout Image
+// --- Ajout Image
+function getFormValues() {
+  const title = photoTitleInput.value;
+  const category = categorySelect.value;
+  const file = inputPhotoFile.files[0];
+  return { title, category, file };
+}
 
-// Sélectionnez les éléments du formulaire dans le Modal 2
-const photoTitleInput = document.getElementById("photoTitle");
-const categorySelect = document.getElementById("categorySelect");
-const submitPhotoBtn = document.getElementById("submitPhoto");
-
-// Écoutez l'événement de soumission du formulaire
-submitPhotoBtn.addEventListener("click", async (event) => {
-    event.preventDefault();
-    
-    // Récupérez les valeurs du titre, de la catégorie et du fichier image
-    const title = photoTitleInput.value;
-    const category = categorySelect.value;
-    const file = inputPhotoFile.files[0];
-
-    // Créez un objet FormData et ajoutez les données
+// Event du formulaire
+submitPhotoBtn.addEventListener("click", async () => {
+    // Récupére les valeurs du titre, catégorie et du fichier image
+    const { title, category, file } = getFormValues();
+    // Crée un objet FormData et y ajoute les données
     const formData = new FormData();
     formData.append("title", title);
     formData.append("category", category);
     formData.append("image", file);
 
     try {
-        const response = await fetch("http://localhost:5678/api/works", {
-            method: "POST",
-            headers: {
-              Authorization: `Bearer ${bearerAuth.token}`,
-              accept: "application/json",
-             },
-             body: formData,
+      const response = await fetch("http://localhost:5678/api/works", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${bearerAuth.token}`,
+          accept: "application/json",
+        },
+        body: formData,
+      });
+      if (response.ok) {
+            console.log("içi")            
+        const galleryItem = await getWorks();
+
+        let galleryHTML = '';
+        galleryItem.forEach(item => {
+          galleryHTML += `
+            <figure>
+              <img src="${item.imageUrl}">
+              <figcaption>${item.title}</figcaption>
+            </figure>
+          `;
         });
-
-        if (response.ok) {
-            //Ryade window.location.reload();
-            const galleryDatae = await getWorks();
-
-            let galleryHTML = '';
-            galleryDatae.forEach(item => {
-              galleryHTML += `
-              <figure>
-                <img src="${item.imageUrl}">
-                <figcaption>${item.title}</figcaption>
-              </figure>
-              `;
-            });
-            galleryElement.innerHTML = galleryHTML;
-            modalGallery.innerHTML = galleryHTML;
-            aside2.style.display = "none";
-            document.body.classList.remove("modal-open");
-        } else {
-            alert("Erreur lors de l'ajout de l'image à votre API.");
+          galleryElement.innerHTML = galleryHTML;
+          imageContainers.innerHTML = galleryHTML;
+          
+          const uploadContainer = document.getElementById("uploadContainer");
+          const uploadContainerChildren = uploadContainer.children;
+          photoTitleInput.value = "";
+          categorySelect.value = "";
+          inputPhotoFile.value = "";
+          const uploadedImage = uploadContainer.querySelector('img');
+          if (uploadedImage) {
+            uploadedImage.remove();
+          }
+          for (let i = 0; i < uploadContainerChildren.length; i++) {
+            uploadContainerChildren[i].style.display = "block";
+          }
+      } else {
+          alert("Erreur lors de l'ajout de l'image à votre API.");
         }
     } catch (error) {
         console.error("Erreur lors de la requête vers l'API :", error);
@@ -173,9 +182,7 @@ photoTitleInput.addEventListener("input", validateForm);
 categorySelect.addEventListener("input", validateForm);
 
 function validateForm() {
-  const title = photoTitleInput.value;
-  const category = categorySelect.value;
-  const file = inputPhotoFile.files[0];
+  const { title, category, file } = getFormValues();
 
   if (title && category && file) {
     submitPhotoBtn.disabled = false;
