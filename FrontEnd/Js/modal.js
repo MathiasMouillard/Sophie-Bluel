@@ -17,6 +17,21 @@ const bearerAuth = JSON.parse(localStorage.getItem("bearerAuth"));
 const imageContainers = document.querySelectorAll('.image-container')
 const galleryElement = document.querySelector('.gallery');
 
+// Api gallery modal
+function generateGalleryHTML(data) {
+  let galleryHTML = '';
+  data.forEach(item => {
+    galleryHTML += `
+      <div class="image-container" data-image-id="${item.id}">
+        <img src="${item.imageUrl}" >
+        <div class="delete-background">
+          <i class="fa-solid fa-trash-can delete-icon"></i>
+        </div>
+      </div>
+    `;
+  });
+  return galleryHTML;
+}
 
 // --- Modal Global ---
 // Open Modal 2
@@ -32,7 +47,7 @@ function openModal1(e) {
   aside2.style.display = "none";
 }
 // Refresh Modal
-function refreshModal(e) {
+function closeModal(e) {
   e.preventDefault();
   aside1.style.display = "none";
   aside2.style.display = "none";
@@ -44,9 +59,9 @@ addPhotoBtn.addEventListener("click", openModal2);
 // Redirection to Modal 1
 modalArrow.addEventListener("click", openModal1);
 // Close Modal 1
-modal1CloseBtn.addEventListener("click", refreshModal);
+modal1CloseBtn.addEventListener("click", closeModal);
 // Close Modal 2
-modal2CloseBtn.addEventListener("click", refreshModal);
+modal2CloseBtn.addEventListener("click", closeModal);
 
 
 // --- Modal 1 Gallery 
@@ -55,26 +70,16 @@ modal2CloseBtn.addEventListener("click", refreshModal);
 btnEditModal.addEventListener("click", async function() {
   aside1.removeAttribute("style");
   document.body.classList.add("modal-open");
-  await fetchAndDisplayGallery();
+  await fetchGallery();
 });
 
 // Load and display gallery
-async function fetchAndDisplayGallery() {
+async function fetchGallery() {
   try {
     const galleryData = await getWorks();
-
-    let galleryHTML = '';
-    galleryData.forEach(item => {
-      galleryHTML += `
-      <div class="image-container" data-image-id="${item.id}">
-      <img src="${item.imageUrl}" >
-      <div class="delete-background">
-        <i class="fa-solid fa-trash-can delete-icon"></i>
-      </div>
-    </div>
-      `;
-    });
-    modalGallery.innerHTML = galleryHTML;   
+    const galleryHTML = generateGalleryHTML(galleryData);
+    modalGallery.innerHTML = galleryHTML;
+    galleryElement.innerHTML = galleryHTML;   
   } catch (error) {
     console.error("Erreur lors de la récupération des données de la galerie :", error);
   }
@@ -122,6 +127,15 @@ function getFormValues() {
   const file = inputPhotoFile.files[0];
   return { title, category, file };
 }
+async function fetchForModalGallery() {
+  try {
+    const galleryData = await getWorks();
+    const galleryHTML = generateGalleryHTML(galleryData);
+    modalGallery.innerHTML = galleryHTML;    
+  } catch (error) {
+    console.error("Erreur lors de la récupération des données de la galerie :", error);
+  }
+}
 
 // Form event
 submitPhotoBtn.addEventListener("click", async () => {
@@ -143,7 +157,7 @@ submitPhotoBtn.addEventListener("click", async () => {
         body: formData,
       });
       if (response.ok) {
-            console.log("içi")            
+          console.log("içi")            
         const galleryItem = await getWorks();
 
         let galleryHTML = '';
@@ -155,21 +169,21 @@ submitPhotoBtn.addEventListener("click", async () => {
             </figure>
           `;
         });
-          galleryElement.innerHTML = galleryHTML;
-          imageContainers.innerHTML = galleryHTML;
-          
-          const uploadContainer = document.getElementById("uploadContainer");
-          const uploadContainerChildren = uploadContainer.children;
-          photoTitleInput.value = "";
-          categorySelect.value = "";
-          inputPhotoFile.value = "";
-          const uploadedImage = uploadContainer.querySelector('img');
-          if (uploadedImage) {
-            uploadedImage.remove();
-          }
-          for (let i = 0; i < uploadContainerChildren.length; i++) {
-            uploadContainerChildren[i].style.display = "block";
-          }
+        fetchForModalGallery();
+        galleryElement.innerHTML = galleryHTML;              
+        
+        const uploadContainer = document.getElementById("uploadContainer");
+        const uploadContainerChildren = uploadContainer.children;
+        photoTitleInput.value = "";
+        categorySelect.value = "";
+        inputPhotoFile.value = "";
+        const uploadedImage = uploadContainer.querySelector('img');
+        if (uploadedImage) {
+          uploadedImage.remove();
+        }
+        for (let i = 0; i < uploadContainerChildren.length; i++) {
+          uploadContainerChildren[i].style.display = "block";
+        }
       } else {
           alert("Erreur lors de l'ajout de l'image à votre API.");
         }
@@ -214,7 +228,7 @@ document.addEventListener("click", async (event) => {
           },
         });
         if (response.ok) {
-          await fetchAndDisplayGallery();
+          await fetchGallery();
         } else {
           console.error("La suppression de l'image dans l'API a échoué.");
         }
@@ -224,3 +238,4 @@ document.addEventListener("click", async (event) => {
     }
   }
 });
+
