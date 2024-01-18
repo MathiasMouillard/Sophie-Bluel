@@ -14,7 +14,6 @@ const photoTitleInput = document.getElementById("photoTitle");
 const categorySelect = document.getElementById("categorySelect");
 const submitPhotoBtn = document.getElementById("submitPhoto");
 const bearerAuth = JSON.parse(localStorage.getItem("bearerAuth"));
-const imageContainers = document.querySelectorAll('.image-container')
 const galleryElement = document.querySelector('.gallery');
 
 // Api gallery modal
@@ -141,6 +140,12 @@ async function fetchForModalGallery() {
 submitPhotoBtn.addEventListener("click", async () => {
     // Receive title , category and img file value
     const { title, category, file } = getFormValues();
+     // Check file size.
+    const maxFileSize = 4 * 1024 * 1024; 
+    if (file.size > maxFileSize) {
+      alert("La taille du fichier est supérieur a 4 mo.");
+      return;
+    }
     // create FormData & adding data
     const formData = new FormData();
     formData.append("title", title);
@@ -238,4 +243,3 @@ document.addEventListener("click", async (event) => {
     }
   }
 });
-
