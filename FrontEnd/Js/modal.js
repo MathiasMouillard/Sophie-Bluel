@@ -32,12 +32,32 @@ function generateGalleryHTML(data) {
   return galleryHTML;
 }
 
+// Reset form container
+function resetUploadContainer() {
+  const uploadContainer = document.getElementById("uploadContainer");
+  const uploadContainerChildren = uploadContainer.children;
+  photoTitleInput.value = "";
+  categorySelect.value = "";
+  inputPhotoFile.value = "";
+
+  const uploadedImage = uploadContainer.querySelector('img');
+  if (uploadedImage) {
+      uploadedImage.remove();
+  }
+
+  for (let i = 0; i < uploadContainerChildren.length; i++) {
+      uploadContainerChildren[i].style.display = "block";
+  }
+}
+
+
 // --- Modal Global ---
 // Open Modal 2
 function openModal2(e) {
   e.preventDefault();
   aside1.style.display = "none";
   aside2.style.display = "block";
+  resetUploadContainer();
 }
 // Open Modal 1
 function openModal1(e) {
@@ -77,13 +97,12 @@ async function fetchGallery() {
   try {
     const galleryData = await getWorks();
     const galleryHTML = generateGalleryHTML(galleryData);
-    modalGallery.innerHTML = galleryHTML;
-    galleryElement.innerHTML = galleryHTML;   
+    modalGallery.innerHTML = galleryHTML;    
   } catch (error) {
     console.error("Erreur lors de la récupération des données de la galerie :", error);
   }
 }
- 
+
 
 // --- Modal 2 Form
 
@@ -126,15 +145,7 @@ function getFormValues() {
   const file = inputPhotoFile.files[0];
   return { title, category, file };
 }
-async function fetchForModalGallery() {
-  try {
-    const galleryData = await getWorks();
-    const galleryHTML = generateGalleryHTML(galleryData);
-    modalGallery.innerHTML = galleryHTML;    
-  } catch (error) {
-    console.error("Erreur lors de la récupération des données de la galerie :", error);
-  }
-}
+
 
 // Form event
 submitPhotoBtn.addEventListener("click", async () => {
@@ -161,8 +172,7 @@ submitPhotoBtn.addEventListener("click", async () => {
         },
         body: formData,
       });
-      if (response.ok) {
-          console.log("içi")            
+      if (response.ok) {          
         const galleryItem = await getWorks();
 
         let galleryHTML = '';
@@ -174,21 +184,10 @@ submitPhotoBtn.addEventListener("click", async () => {
             </figure>
           `;
         });
-        fetchForModalGallery();
+        fetchGallery();
         galleryElement.innerHTML = galleryHTML;              
         
-        const uploadContainer = document.getElementById("uploadContainer");
-        const uploadContainerChildren = uploadContainer.children;
-        photoTitleInput.value = "";
-        categorySelect.value = "";
-        inputPhotoFile.value = "";
-        const uploadedImage = uploadContainer.querySelector('img');
-        if (uploadedImage) {
-          uploadedImage.remove();
-        }
-        for (let i = 0; i < uploadContainerChildren.length; i++) {
-          uploadContainerChildren[i].style.display = "block";
-        }
+        resetUploadContainer();
       } else {
           alert("Erreur lors de l'ajout de l'image à votre API.");
         }
@@ -233,7 +232,19 @@ document.addEventListener("click", async (event) => {
           },
         });
         if (response.ok) {
-          await fetchGallery();
+          const galleryItem = await getWorks();
+
+        let galleryHTML = '';
+        galleryItem.forEach(item => {
+          galleryHTML += `
+            <figure>
+              <img src="${item.imageUrl}">
+              <figcaption>${item.title}</figcaption>
+            </figure>
+          `;
+        });
+        fetchGallery();
+        galleryElement.innerHTML = galleryHTML; 
         } else {
           console.error("La suppression de l'image dans l'API a échoué.");
         }
