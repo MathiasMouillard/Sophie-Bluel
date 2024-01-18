@@ -46,7 +46,7 @@ function openModal1(e) {
   aside1.style.display = "block";
   aside2.style.display = "none";
 }
-// Refresh Modal
+// Close Modal
 function closeModal(e) {
   e.preventDefault();
   aside1.style.display = "none";
@@ -58,7 +58,7 @@ function closeModal(e) {
 addPhotoBtn.addEventListener("click", openModal2);
 // Redirection to Modal 1
 modalArrow.addEventListener("click", openModal1);
-// Close Modal 1
+// Close Modals
 modal1CloseBtn.addEventListener("click", closeModal);
 // Close Modal 2
 modal2CloseBtn.addEventListener("click", closeModal);
