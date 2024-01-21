@@ -51,7 +51,6 @@ function resetUploadContainer() {
   }
 }
 
-
 // --- Modal Global ---
 // Open Modal 2
 function openModal2(e) {
@@ -71,8 +70,7 @@ function closeModal(e) {
   e.preventDefault();
   aside1.style.display = "none";
   aside2.style.display = "none";
-  document.getElementById('overlay').style.display = 'none';
-  document.body.classList.remove("modal-open");
+  document.getElementById('overlay').style.display = 'none'; 
 }
 // Close Modal out click
 overlay.addEventListener('click', function(e) {
@@ -95,7 +93,7 @@ modal2CloseBtn.addEventListener("click", closeModal);
 btnEditModal.addEventListener("click", async function() {
   aside1.removeAttribute("style");
   document.getElementById('overlay').style.display = 'block';
-  document.body.classList.add("modal-open");
+
   await fetchGallery();
 });
 
@@ -112,7 +110,6 @@ async function fetchGallery() {
 
 
 // --- Modal 2 Form
-
 // photo selection
 btnAjouterPhoto.addEventListener("click", (event) => {
     event.preventDefault();
