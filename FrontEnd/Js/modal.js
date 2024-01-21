@@ -15,6 +15,7 @@ const categorySelect = document.getElementById("categorySelect");
 const submitPhotoBtn = document.getElementById("submitPhoto");
 const bearerAuth = JSON.parse(localStorage.getItem("bearerAuth"));
 const galleryElement = document.querySelector('.gallery');
+const overlay = document.getElementById('overlay');
 
 // Api gallery modal
 function generateGalleryHTML(data) {
@@ -70,8 +71,13 @@ function closeModal(e) {
   e.preventDefault();
   aside1.style.display = "none";
   aside2.style.display = "none";
+  document.getElementById('overlay').style.display = 'none';
   document.body.classList.remove("modal-open");
 }
+// Close Modal out click
+overlay.addEventListener('click', function(e) {
+  closeModal(e);
+});
 
 // Redirection to Modal 2
 addPhotoBtn.addEventListener("click", openModal2);
@@ -88,6 +94,7 @@ modal2CloseBtn.addEventListener("click", closeModal);
 // Open gallery modal
 btnEditModal.addEventListener("click", async function() {
   aside1.removeAttribute("style");
+  document.getElementById('overlay').style.display = 'block';
   document.body.classList.add("modal-open");
   await fetchGallery();
 });
