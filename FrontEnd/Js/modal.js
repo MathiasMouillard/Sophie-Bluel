@@ -17,6 +17,7 @@ const bearerAuth = JSON.parse(localStorage.getItem("bearerAuth"));
 const galleryElement = document.querySelector('.gallery');
 const overlay = document.getElementById('overlay');
 
+
 // Api gallery modal
 function generateGalleryHTML(data) {
   let galleryHTML = '';
